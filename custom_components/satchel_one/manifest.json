@@ -1,0 +1,12 @@
+{
+  "domain": "satchel_one",
+  "name": "Satchel One",
+  "codeowners": [
+    "@josephabbey"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/josephabbey/ha_satchel_one",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/josephabbey/ha_satchel_one/issues",
+  "version": "0.0.0"
+}
