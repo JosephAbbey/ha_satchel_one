@@ -6,9 +6,6 @@
         "data": {
           "access_token": "Access Token"
         }
-      },
-      "error": {
-        "api": "Satchel One API Error"
       }
     }
   }
