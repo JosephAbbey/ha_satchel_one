@@ -1,5 +1,15 @@
 {
   "config": {
-    "access_token": "Access Token"
+    "step": {
+      "user": {
+        "title": "User",
+        "data": {
+          "access_token": "Access Token"
+        }
+      },
+      "error": {
+        "api": "Satchel One API Error"
+      }
+    }
   }
 }
