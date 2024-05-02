@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import cast
 
 from homeassistant.components.todo import (
@@ -42,6 +42,7 @@ class SatchelOneTodoListEntity(
 ):
     """A To-do List representation of the Shopping List."""
 
+    _attr_name = "Homework"
     _attr_has_entity_name = True
     _attr_supported_features = TodoListEntityFeature.UPDATE_TODO_ITEM
 
@@ -52,7 +53,6 @@ class SatchelOneTodoListEntity(
     ) -> None:
         """Initialize LocalTodoListEntity."""
         super().__init__(coordinator)
-        self._attr_name = "Homework"
         self._attr_unique_id = config_entry_id
 
     @property

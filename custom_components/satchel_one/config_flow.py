@@ -10,13 +10,14 @@ from homeassistant.const import CONF_ACCESS_TOKEN
 from homeassistant.helpers import selector
 
 from .api import AsyncConfigEntryAuth
-from .const import DOMAIN
+from .const import DOMAIN, CONF_SCHOOL, CONF_STUDENT
 from .exceptions import SatchelOneApiError
 
 _LOGGER = logging.getLogger(__name__)
 
 class SatchelOneConfigFlow(ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Satchel One."""
+
     VERSION = 1
 
     async def async_step_user(
@@ -43,6 +44,12 @@ class SatchelOneConfigFlow(ConfigFlow, domain=DOMAIN):
             step_id="user",
             data_schema=vol.Schema(
                 {
+                    vol.Required(CONF_SCHOOL): selector.TextSelector(
+                        selector.TextSelectorConfig(),
+                    ),
+                    vol.Required(CONF_STUDENT): selector.TextSelector(
+                        selector.TextSelectorConfig(),
+                    ),
                     vol.Required(CONF_ACCESS_TOKEN): selector.TextSelector(
                         selector.TextSelectorConfig(
                             type=selector.TextSelectorType.PASSWORD
@@ -57,6 +64,8 @@ class SatchelOneConfigFlow(ConfigFlow, domain=DOMAIN):
         """Validate credentials."""
         client = AsyncConfigEntryAuth(
             self.hass,
+            school="",
+            student="",
             access_token=access_token,
         )
         await client.list_tasks()
