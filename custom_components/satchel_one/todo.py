@@ -36,6 +36,10 @@ async def async_setup_entry(
         True,
     )
 
+def generate_link(id: str, type: str):
+    """Generate the link to a Satchel One task."""
+    t = "homeworks" if type == "Homework" else ("classworks" if type == "Classwork" else ("flexible-tasks" if type == "FlexibleTask" else ("quizzes" if type == "Quiz" else "")))
+    return f"https://www.stachelone.com/school/{t}/{id}"
 
 class SatchelOneTodoListEntity(
     CoordinatorEntity[TaskUpdateCoordinator], TodoListEntity
@@ -66,7 +70,7 @@ class SatchelOneTodoListEntity(
             due=datetime.fromisoformat(item["due_on"]).date(),
             status=TodoItemStatus.COMPLETED if item["completed"] else TodoItemStatus.NEEDS_ACTION,
             summary=item["class_task_title"],
-            description=f"{item['class_task_type']} - {item['subject']} - {item['teacher_name']} - {item['class_task_description']}",
+            description=f"{item['class_task_type']} - {item['subject']} - {item['teacher_name']} - {item['class_task_description']} [Open]({generate_link(str(item["id"]), item['class_task_type'])})",
           ) for item in self.coordinator.data], key=lambda x: x.due)
 
     async def async_update_todo_item(self, item: TodoItem) -> None:

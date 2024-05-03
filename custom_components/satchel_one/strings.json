@@ -4,6 +4,8 @@
       "user": {
         "title": "User",
         "data": {
+          "school": "School ID",
+          "student": "Student ID",
           "access_token": "Access Token"
         }
       }
