@@ -39,7 +39,7 @@ async def async_setup_entry(
 def generate_link(id: str, type: str):
     """Generate the link to a Satchel One task."""
     t = "homeworks" if type == "Homework" else ("classworks" if type == "Classwork" else ("flexible-tasks" if type == "FlexibleTask" else ("quizzes" if type == "Quiz" else "")))
-    return f"https://www.stachelone.com/school/{t}/{id}"
+    return f"https://www.satchelone.com/school/{t}/{id}"
 
 class SatchelOneTodoListEntity(
     CoordinatorEntity[TaskUpdateCoordinator], TodoListEntity
