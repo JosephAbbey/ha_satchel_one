@@ -1,9 +1,9 @@
 # artifacts
-__pycache__
+**/__pycache__/*
 .pytest*
 *.egg-info
-*/build/*
-*/dist/*
+**/build/*
+**/dist/*
 
 
 # misc

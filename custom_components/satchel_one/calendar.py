@@ -79,6 +79,13 @@ class SatchelOneCalendarEntity(
     @property
     def extra_state_attributes(self) -> dict[str, bool]:
         """Return the device state attributes."""
+        if self.event is None:
+            return {}
+        if self.event.description is None:
+            return {
+                "subject": self.event.summary,
+                "room": self.event.location,
+            }
         parts = self.event.description.split(" \n")
         return {
             "subject": self.event.summary,
