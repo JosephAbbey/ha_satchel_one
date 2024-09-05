@@ -110,7 +110,7 @@ class SatchelOneCalendarEntity(
     def event(self) -> CalendarEvent | None:
         """Return the next upcoming event."""
         if self.coordinator.upcoming is not None and len(self.coordinator.upcoming) > 0:
-            return self._convert_event((self.coordinator.upcoming or [])[0])
+            return self._convert_event(self.coordinator.upcoming[0])
         else:
             return None
 
