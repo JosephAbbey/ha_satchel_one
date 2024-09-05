@@ -36,10 +36,24 @@ async def async_setup_entry(
         True,
     )
 
+
 def generate_link(id: str, type: str):
     """Generate the link to a Satchel One task."""
-    t = "homeworks" if type == "Homework" else ("classworks" if type == "Classwork" else ("flexible-tasks" if type == "FlexibleTask" else ("quizzes" if type == "Quiz" else "")))
+    t = (
+        "homeworks"
+        if type == "Homework"
+        else (
+            "classworks"
+            if type == "Classwork"
+            else (
+                "flexible-tasks"
+                if type == "FlexibleTask"
+                else ("quizzes" if type == "Quiz" else "")
+            )
+        )
+    )
     return f"https://www.satchelone.com/school/{t}/{id}"
+
 
 class SatchelOneTodoListEntity(
     CoordinatorEntity[TaskUpdateCoordinator], TodoListEntity
@@ -64,22 +78,26 @@ class SatchelOneTodoListEntity(
         """Get the current set of To-do items."""
         if self.coordinator.data is None:
             return None
-        return sorted([
-          TodoItem(
-            uid=str(item["id"]),
-            due=datetime.fromisoformat(item["due_on"]).date(),
-            status=TodoItemStatus.COMPLETED if item["completed"] else TodoItemStatus.NEEDS_ACTION,
-            summary=item["class_task_title"],
-            description=f"{item['class_task_type']} - {item['subject']} - {item['teacher_name']} - {item['class_task_description']} [Open]({generate_link(str(item["id"]), item['class_task_type'])})",
-          ) for item in self.coordinator.data], key=lambda x: x.due)
+        return sorted(
+            [
+                TodoItem(
+                    uid=str(item["id"]),
+                    due=datetime.fromisoformat(item["due_on"]).date(),
+                    status=TodoItemStatus.COMPLETED
+                    if item["completed"]
+                    else TodoItemStatus.NEEDS_ACTION,
+                    summary=item["class_task_title"],
+                    description=f"{item['class_task_type']} - {item['subject']} - {item['teacher_name']} - {item['class_task_description']} [Open]({generate_link(str(item["id"]), item['class_task_type'])})",
+                )
+                for item in self.coordinator.data
+            ],
+            key=lambda x: x.due or datetime.min,
+        )
 
     async def async_update_todo_item(self, item: TodoItem) -> None:
         """Update a To-do item."""
         uid: str = cast(str, item.uid)
         await self.coordinator.api.put_task(
-            uid,
-            task={
-                "completed": item.status == TodoItemStatus.COMPLETED
-            }
+            uid, task={"completed": item.status == TodoItemStatus.COMPLETED}
         )
         await self.coordinator.async_refresh()

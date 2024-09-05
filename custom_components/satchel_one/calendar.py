@@ -77,7 +77,7 @@ class SatchelOneCalendarEntity(
         )
 
     @property
-    def extra_state_attributes(self) -> dict[str, bool]:
+    def extra_state_attributes(self) -> dict[str, Any]:
         """Return the device state attributes."""
         if self.event is None:
             return {}

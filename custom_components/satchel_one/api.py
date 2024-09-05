@@ -35,11 +35,11 @@ def flatten(it):
 
 def _raise_if_error(result: Any | dict[str, Any]) -> None:
     """Raise a SatchelOneApiError if the response contains an error."""
-    if not (isinstance(result, dict) or isinstance(result, list)):
+    if not isinstance(result, dict | list):
         raise SatchelOneApiError(
             f"Satchel One API replied with unexpected response: {result}"
         )
-    if error := result.get("error"):
+    if isinstance(result, dict) and (error := result.get("error")):
         if isinstance(error, dict):
             message = error.get("message", "Unknown Error")
             raise SatchelOneApiError(f"Satchel One API response: {message}")

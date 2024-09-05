@@ -1,6 +1,5 @@
 """Config flow for Satchel One."""
 
-
 import logging
 
 import voluptuous as vol
@@ -15,6 +14,7 @@ from .exceptions import SatchelOneApiError
 
 _LOGGER = logging.getLogger(__name__)
 
+
 class SatchelOneConfigFlow(ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Satchel One."""
 
@@ -23,7 +23,7 @@ class SatchelOneConfigFlow(ConfigFlow, domain=DOMAIN):
     async def async_step_user(
         self,
         user_input: dict | None = None,
-    ) -> config_entries.FlowResult:
+    ) -> config_entries.ConfigFlowResult:
         """Handle a flow initialized by the user."""
         _errors = {}
         if user_input is not None:
